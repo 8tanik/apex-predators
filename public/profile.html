@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרופיל משתמש - מגילת טורפי העל</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="profile-body">
+
+ <nav>
+    <div class="nav-links">
+        <a href="index.html">בית</a>
+        <a href="profile.html">הפרופיל שלי</a>
+        <a href="login.html" id="nav-login-btn">כניסה</a>
+        <a href="register.html" id="nav-register-btn">הרשמה</a>
+        <a href="/logout" id="nav-logout-btn" style="display: none;">יציאה</a>
+    </div>
+    <div id="user-greeting" style="color: #ebdcb9; font-family: 'Rubik', sans-serif; font-size: 0.95rem; margin-right: auto; display: flex; align-items: center; gap: 8px;">
+        <span>טוען מצב חיבור...</span>
+    </div>
+</nav>
+
+    <div class="profile-container">
+        <div class="profile-card">
+            <h2>הפרופיל שלי</h2>
+            
+            <div class="profile-info">
+                <div class="info-group">
+                    <label>שם משתמש:</label>
+                    <span id="profile-username">טוען...</span>
+                </div>
+            </div>
+
+            <hr class="profile-divider">
+
+            <h3>עדכון סיסמה</h3>
+            <form id="update-password-form" class="profile-form">
+                <input type="password" id="current-password" placeholder="סיסמה נוכחית" required>
+                <input type="password" id="new-password" placeholder="סיסמה חדשה" required>
+                <button type="submit">עדכן סיסמה</button>
+            </form>
+            
+            <div id="message" style="margin-top: 15px; font-size: 0.9rem; text-align: center;"></div>
+        </div>
+    </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. בדיקת מצב חיבור המשתמש ועדכון ה-Navbar
+            fetch('/user-info')
+                .then(res => {
+                    if (!res.ok) throw new Error();
+                    return res.json();
+                })
+                .then(data => {
+                    // המשתמש מחובר - נציג נקודה ירוקה ושם
+                    document.getElementById('user-greeting').innerHTML = `שלום, <b>${data.username}</b> <span style="color: #2ed573; font-size: 0.75rem; animation: pulse 2s infinite;">🟢</span>`;
+                    document.getElementById('nav-login-btn').style.display = 'none';
+                    document.getElementById('nav-register-btn').style.display = 'none';
+                    document.getElementById('nav-logout-btn').style.display = 'inline-block';
+                })
+                .catch(() => {
+                    // אורח לא מחובר
+                    document.getElementById('user-greeting').innerHTML = `שלום, אורח <span style="color: #ff4d4d; font-size: 0.75rem;">🔴</span>`;
+                });
+                
+            
+            // קריאה לנתיב הפשוט החדש בלי /api
+            fetch('/user-info') 
+                .then(res => {
+                    if (!res.ok) throw new Error();
+                    return res.json();
+                })
+                .then(data => {
+                    document.getElementById('profile-username').innerText = data.username;
+                })
+                .catch(() => {
+                    document.getElementById('profile-username').innerText = 'אורח / לא מחובר';
+                });
+        });
+    </script>
+</body>
+</html>

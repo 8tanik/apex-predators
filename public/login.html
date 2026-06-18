@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>כניסה למסע</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-body">
+    <div class="auth-card">
+        <h2>התחברות</h2>
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="שם משתמש" required>
+            
+            <div class="password-container">
+                <input type="password" name="password" id="login-password" placeholder="סיסמה" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('login-password', this)">👁️</span>
+            </div>
+
+            <button type="submit">היכנס</button>
+        </form>
+        <p style="margin-top:15px;">עדיין לא נרשמת? <a href="register.html">להרשמה לחץ כאן</a></p>
+    </div>
+
+    <script>
+        // פונקציה להצגה והסתרת סיסמה
+        function togglePasswordVisibility(inputId, eyeIcon) {
+            const passwordInput = document.getElementById(inputId);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerText = '🙈'; // משנה את האייקון כשהסיסמה גלויה
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerText = '👁️';
+            }
+        }
+
+        // זיהוי שגיאה בהתחברות
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.color = '#ff6b6b';
+            errorDiv.style.marginTop = '15px';
+            errorDiv.style.fontSize = '0.9rem';
+            errorDiv.style.fontWeight = 'bold';
+            errorDiv.innerText = '❌ שם משתמש או סיסמה שגויים';
+            document.querySelector('.auth-card').appendChild(errorDiv);
+        }
+    </script>
+</body>
+</html>

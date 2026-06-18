@@ -1,0 +1,466 @@
+/* ==========================================================================
+   1. פונטים והגדרות בסיס
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&family=Rubik:wght@500;700;900&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Assistant', sans-serif;
+    color: #ebdcb9;
+    overflow-x: hidden;
+    /* רקע משתנה דינמי לפי צלילה בזמן */
+    background: linear-gradient(to bottom, 
+        #0d131a 0%,    /* מודרני: כחול אפל */
+        #141311 10%,   /* פלייסטוקן */
+        #060c12 20%,   /* מיוקן */
+        #0d170e 35%,   /* קרטיקון */
+        #071211 50%,   /* יורה */
+        #1c100a 65%,   /* פרם */
+        #0c0c12 75%,   /* דבון */
+        #0a1414 83%,   /* קמבריון */
+        #10140d 90%,   /* אדיאקר */
+        #110a14 95%,   /* פרוטרוזואיקון */
+        #050206 100%   /* ארכאיקון */
+    );
+}
+
+/* ==========================================================================
+   2. רכיבים גלובליים (תפריט ניווט ומד זמן)
+   ========================================================================== */
+nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10, 10, 10, 0.85);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between; /* דוחף את הקישורים ימינה ואת הברכה שמאלה */
+    align-items: center;
+    border-bottom: 1px solid rgba(196, 164, 115, 0.1);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    font-family: 'Rubik', sans-serif;
+    color: #c4a473;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover { 
+    color: #fff; 
+}
+
+#time-tracker {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(196, 164, 115, 0.3);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #c4a473;
+    z-index: 2000;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    direction: ltr;
+}
+
+/* ==========================================================================
+   3. דף הבית (Intro & Cards)
+   ========================================================================== */
+.intro {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.intro h1 { 
+    font-family: 'Rubik', sans-serif;
+    font-weight: 900;
+    font-size: 4rem; 
+    color: #fff; 
+    margin-bottom: 15px; 
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.intro p { 
+    font-size: 1.25rem; 
+    color: #ebdcb9; 
+    opacity: 0.8; 
+    max-width: 550px; 
+    line-height: 1.6; 
+    font-weight: 300; 
+}
+
+.arrow { 
+    font-size: 5rem; 
+    color: #c4a473; 
+    margin-top: 30px; 
+    animation: bounce 2s infinite; 
+}
+
+/* כרטיסיות הטורפים */
+.predator-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(15, 15, 15, 0.65); 
+    color: #ebdcb9;
+    border-radius: 8px;
+    border: 1px solid rgba(196, 164, 115, 0.15);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    text-align: right;
+    backdrop-filter: blur(8px); 
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.predator-card:hover {
+    border-color: rgba(196, 164, 115, 0.4);
+    transform: translateY(-4px);
+}
+
+.era { 
+    display: inline-block;
+    font-family: 'Rubik', sans-serif;
+    background: rgba(196, 164, 115, 0.1);
+    border: 1px solid rgba(196, 164, 115, 0.4);
+    color: #c4a473;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.predator-card h2 { 
+    font-family: 'Rubik', sans-serif;
+    font-weight: 700;
+    margin: 0 0 15px 0; 
+    font-size: 2.2rem; 
+    color: #fff; 
+    border-bottom: 1px solid rgba(196, 164, 115, 0.15);
+    padding-bottom: 12px;
+}
+
+.predator-card p { 
+    font-size: 1.1rem; 
+    line-height: 1.7; 
+    color: #ebdcb9; 
+    opacity: 0.9; 
+    font-weight: 300; 
+}
+
+.predator-card p strong { 
+    color: #c4a473; 
+    font-weight: 600; 
+}
+
+.predator-img {
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* ==========================================================================
+   4. מערכת ביקורות ותגובות
+   ========================================================================== */
+.reviews-wrapper {
+    max-width: 600px;
+    margin: 140px auto;
+    padding: 40px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(196, 164, 115, 0.15);
+    border-radius: 8px;
+    scroll-margin-top: 100px;
+}
+
+.reviews-wrapper h2 { 
+    font-family: 'Rubik', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #c4a473; 
+    border-bottom: 1px solid rgba(196, 164, 115, 0.15); 
+    padding-bottom: 12px; 
+    margin-top: 0; 
+}
+
+.review-form textarea {
+    width: 100%; 
+    height: 90px; 
+    background: rgba(0, 0, 0, 0.3); 
+    border: 1px solid rgba(196, 164, 115, 0.2);
+    color: #fff; 
+    padding: 12px; 
+    box-sizing: border-box; 
+    resize: none; 
+    font-family: 'Assistant', sans-serif;
+    font-size: 1rem; 
+    border-radius: 4px;
+}
+
+.review-form button {
+    margin-top: 15px; 
+    padding: 12px; 
+    background: #c4a473; 
+    border: none;
+    color: #140e09; 
+    font-weight: 600; 
+    cursor: pointer; 
+    width: 100%; 
+    font-size: 1rem;
+    font-family: 'Rubik', sans-serif;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.review-form button:hover { 
+    background: #ebdcb9; 
+}
+
+.review-item {
+    background: rgba(255,255,255,0.01); 
+    padding: 20px; 
+    margin-top: 15px;
+    border-right: 3px solid #c4a473;
+    border-radius: 0 4px 4px 0;
+}
+
+/* ==========================================================================
+   5. דפי הרשמה והתחברות (Auth)
+   ========================================================================== */
+.auth-body {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    background: #0a0a0a; /* רקע קבוע לדפי לוגין והרשמה */
+}
+
+.auth-card {
+    background: #111; 
+    color: #ebdcb9; 
+    padding: 40px; 
+    width: 340px; 
+    border-radius: 8px;
+    border: 1px solid rgba(196, 164, 115, 0.15); 
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.auth-card h2 { 
+    font-family: 'Rubik', sans-serif; 
+    font-size: 1.8rem; 
+    color: #c4a473; 
+    margin-bottom: 25px; 
+    margin-top: 0;
+}
+
+.auth-card input {
+    width: 100%; 
+    padding: 12px; 
+    margin: 10px 0; 
+    box-sizing: border-box; 
+    background: rgba(0,0,0,0.3); 
+    border: 1px solid rgba(196, 164, 115, 0.2); 
+    color: #fff;
+    font-family: 'Assistant', sans-serif; 
+    border-radius: 4px;
+}
+
+.auth-card button {
+    width: 100%; 
+    padding: 12px; 
+    background: #c4a473; 
+    border: none; 
+    color: #140e09; 
+    font-weight: bold; 
+    cursor: pointer; 
+    font-size: 1rem;
+    font-family: 'Rubik', sans-serif; 
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.auth-card button:hover { 
+    background: #ebdcb9; 
+}
+
+.auth-card a { 
+    color: #c4a473; 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+}
+
+/* ==========================================================================
+   6. דף פרופיל משתמש (הגרסה השקופה והמתוקנת)
+   ========================================================================== */
+/* ==========================================================================
+   6. דף פרופיל משתמש (גרסה מעודכנת עם רקע יציב)
+   ========================================================================== */
+
+/* קלאס מיוחד שנוסיף ל-body של דף הפרופיל כדי לבטל את ה-Gradient של דף הבית */
+.profile-body {
+    background: #0d1117 !important; /* כחול-כהה אפל, נקי ואחיד שלא נמרח */
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 100px 20px 40px 20px;
+    box-sizing: border-box;
+}
+
+.profile-card {
+    background: rgba(18, 22, 30, 0.75); /* כהה יותר בתוך הכרטיסייה לניגודיות מושלמת */
+    backdrop-filter: blur(12px); /* טשטוש רקע עמוק ויוקרתי */
+    -webkit-backdrop-filter: blur(12px);
+    color: #ebdcb9;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid rgba(196, 164, 115, 0.2); /* גבול מוזהב עדין */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    text-align: right;
+    border-radius: 12px; /* פינות מעוגלות יותר שיראה מודרני */
+}
+
+.profile-card h2 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(196, 164, 115, 0.15);
+    padding-bottom: 12px;
+}
+
+.profile-card h3 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.3rem;
+    color: #c4a473;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.info-group {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.03); /* מלבן עדין מסביב לפרטים */
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.info-group label {
+    font-weight: 600;
+    color: #c4a473;
+    margin-left: 10px;
+}
+
+#profile-username {
+    color: #fff;
+    font-weight: bold;
+}
+
+.profile-divider {
+    border: 0;
+    border-top: 1px solid rgba(196, 164, 115, 0.15);
+    margin: 25px 0;
+}
+
+.profile-form input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(196, 164, 115, 0.2);
+    color: #fff;
+    font-family: 'Assistant', sans-serif;
+    border-radius: 6px;
+}
+
+.profile-form button {
+    width: 100%;
+    padding: 12px;
+    background: #c4a473;
+    border: none;
+    color: #140e09;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Rubik', sans-serif;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.1s;
+}
+
+.profile-form button:hover {
+    background: #ebdcb9;
+}
+
+.profile-form button:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   7. אנימציות (חץ דינמי ואפקט דופק של נקודה ירוקה)
+   ========================================================================== */
+@keyframes bounce { 
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 
+    40% { transform: translateY(-6px); } 
+    60% { transform: translateY(-3px); } 
+}
+
+@keyframes pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+/* מיקום העין בתוך שדה הסיסמה */
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+/* מבטל את המרווחים המקוריים של האינפוט כדי שלא יתנגש */
+.password-container input {
+    margin: 10px 0 !important;
+    padding-left: 40px !important; /* משאיר מקום לעין בצד שמאל */
+}
+
+.toggle-password {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    font-size: 1.1rem;
+    transition: transform 0.1s;
+}
+
+.toggle-password:active {
+    transform: translateY(-50%) scale(0.9); /* אפקט לחיצה קטן */
+}
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>הרשמה למסע</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-body">
+    <div class="auth-card">
+        <h2>הרשמה לאתר</h2>
+        <form action="/register" method="POST">
+            <input type="text" name="username" placeholder="בחר שם משתמש" required>
+            
+            <div class="password-container">
+                <input type="password" name="password" id="register-password" placeholder="בחר סיסמה" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('register-password', this)">👁️</span>
+            </div>
+
+            <button type="submit">הרשם</button>
+        </form>
+        <p style="margin-top:15px;">כבר יש לך משתמש? <a href="login.html">להתחברות לחץ כאן</a></p>
+    </div>
+
+    <script>
+        // פונקציה להצגה והסתרת סיסמה
+        function togglePasswordVisibility(inputId, eyeIcon) {
+            const passwordInput = document.getElementById(inputId);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerText = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerText = '👁️';
+            }
+        }
+
+        // זיהוי אם שם המשתמש קיים
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error') === 'exists') {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.color = '#ff6b6b';
+            errorDiv.style.marginTop = '15px';
+            errorDiv.style.fontSize = '0.9rem';
+            errorDiv.style.fontWeight = 'bold';
+            errorDiv.innerText = '❌ שם המשתמש הזה כבר תפוס במערכת';
+            document.querySelector('.auth-card').appendChild(errorDiv);
+        }
+    </script>
+</body>
+</html>
